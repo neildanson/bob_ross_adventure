@@ -55,7 +55,7 @@ fn player_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .insert(Velocity(Vec2::ZERO))
         .insert(RigidBody::KinematicPositionBased)
         .insert(Collider::cuboid(PLAYER_WIDTH / 2.0, PLAYER_HEIGHT / 2.0))
-        .insert(KinematicCharacterController { up: Vec2::Y, ..default() })
+        .insert(KinematicCharacterController {offset: CharacterLength::Absolute(0.01), ..default() })
         .insert(KinematicCharacterControllerOutput::default());
 }
 
