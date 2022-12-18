@@ -1,9 +1,8 @@
 use std::collections::{HashMap, HashSet};
 
-use bevy::{prelude::*, render::camera::ScalingMode, window::close_on_esc};
+use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
-use iyes_loopless::prelude::*;
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
 pub struct Wall;
@@ -156,7 +155,8 @@ pub fn spawn_wall_collision(
                                     / 2.,
                             ))
                             .insert(RigidBody::Fixed)
-                            .insert(Friction::new(1.0))
+                            .insert(ColliderDebugColor(Color::RED))
+                            //.insert(Friction::new(1.0))
                             .insert(Transform::from_xyz(
                                 (wall_rect.left + wall_rect.right + 1) as f32 * grid_size as f32
                                     / 2.,
@@ -171,3 +171,51 @@ pub fn spawn_wall_collision(
         });
     }
 }
+
+#[derive(Clone, Debug, Default, Bundle, LdtkIntCell)]
+pub struct SensorBundle {
+    pub collider: Collider,
+    pub sensor: Sensor,
+    pub active_events: ActiveEvents,
+    pub rotation_constraints: LockedAxes,
+}
+
+impl From<IntGridCell> for SensorBundle {
+    fn from(int_grid_cell: IntGridCell) -> SensorBundle {
+        let rotation_constraints = LockedAxes::ROTATION_LOCKED;
+
+        // coin
+        if int_grid_cell.value == 2 {
+            SensorBundle {
+                collider: Collider::cuboid(16.0 / 2.0, 16. / 2.0),
+                sensor: Sensor,
+                rotation_constraints,
+                active_events: ActiveEvents::COLLISION_EVENTS,
+                ..Default::default()
+            }
+        } else {
+            SensorBundle::default()
+        }
+    }
+}
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
+pub struct Coin;
+#[derive(Clone, Default, Bundle, LdtkIntCell)]
+pub struct CoinBundle {
+    #[from_int_grid_cell]
+    #[bundle]
+    pub collider_bundle: SensorBundle,
+    pub coin: Coin,
+}
+
+/*/
+#[derive(Clone, Default, Bundle, LdtkEntity)]
+pub struct CoinBundle {
+    #[sprite_sheet_bundle]
+    #[bundle]
+    pub sprite_sheet_bundle: SpriteSheetBundle,
+    #[from_entity_instance]
+    #[bundle]
+    pub collider_bundle: ColliderBundle,
+}*/
