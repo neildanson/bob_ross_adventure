@@ -57,7 +57,7 @@ fn level_startup(mut commands: Commands, asset_server: Res<AssetServer>) {
 }
 
 fn player_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
-    let sprite = "pixelplatformer/Characters/character_0000.png";
+    let sprite = "bob_ross.png";
 
     commands
         .spawn(SpriteBundle {
@@ -77,7 +77,7 @@ fn player_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
             PLAYER_HEIGHT / 2.0 - 7.0,
             6.0,
         ))
-        .insert(KinematicCharacterController::default())
+        .insert(KinematicCharacterController {  ..default() })
         .insert(KinematicCharacterControllerOutput::default())
         .insert(PlayerDirection::FaceRight);
 }
@@ -190,6 +190,7 @@ fn detect_collisions(
     mut collisions: EventReader<CollisionEvent>,
 ) {
     for collision in collisions.iter() {
+        println!("Collision");
         match collision {
             CollisionEvent::Started(_collider_a, _collider_b, _) => {}
             _ => {}
@@ -237,6 +238,13 @@ fn main() {
         )
         .add_loopless_state(GameState::InGame)
         .add_plugin(LdtkPlugin)
+        .insert_resource(LdtkSettings {
+            level_spawn_behavior: LevelSpawnBehavior::UseWorldTranslation {
+                load_level_neighbors: true,
+            },
+            set_clear_color: SetClearColor::FromLevelBackground,
+            ..Default::default()
+        })
         .add_plugin(RapierPhysicsPlugin::<NoUserData>::default())
         .add_plugin(RapierDebugRenderPlugin::default())
         .add_startup_system(startup)
@@ -251,15 +259,17 @@ fn main() {
                 .with_system(apply_gravity)
                 .with_system(apply_velocity)
                 .with_system(flip_player)
-                .with_system(camera_follow)
                 .with_system(read_output)
                 .with_system(detect_collisions)
+                .with_system(camera_follow)
                 .into(),
         )
         .add_system_set(ConditionSet::new().run_in_state(GameState::MainMenu).into())
         .add_system_set(ConditionSet::new().run_in_state(GameState::GameOver).into())
         .add_system(close_on_esc)
         .register_ldtk_int_cell::<WallBundle>(1)
-        .register_ldtk_int_cell::<CoinBundle>(2)
+        //.register_ldtk_int_cell::<CoinBundle>(2)
+
+        .register_ldtk_entity::<CoinBundle>("Coin")
         .run();
 }

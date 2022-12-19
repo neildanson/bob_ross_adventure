@@ -66,7 +66,7 @@
 			"identifier": "Entities",
 			"type": "Entities",
 			"uid": 4,
-			"gridSize": 16,
+			"gridSize": 18,
 			"guideGridWid": 0,
 			"guideGridHei": 0,
 			"displayOpacity": 1,
@@ -257,9 +257,9 @@
 				{
 					"__identifier": "Entities",
 					"__type": "Entities",
-					"__cWid": 21,
-					"__cHei": 21,
-					"__gridSize": 16,
+					"__cWid": 18,
+					"__cHei": 18,
+					"__gridSize": 18,
 					"__opacity": 1,
 					"__pxTotalOffsetX": 0,
 					"__pxTotalOffsetY": 0,
@@ -280,7 +280,7 @@
 					"entityInstances": [
 						{
 							"__identifier": "PlayerStart",
-							"__grid": [9,18],
+							"__grid": [8,16],
 							"__pivot": [0,0],
 							"__tags": [],
 							"__tile": null,
@@ -294,16 +294,30 @@
 						},
 						{
 							"__identifier": "Coin",
-							"__grid": [11,17],
+							"__grid": [9,16],
 							"__pivot": [0.5,0.5],
 							"__tags": [],
 							"__tile": { "tilesetUid": 2, "x": 198, "y": 126, "w": 18, "h": 18 },
 							"__smartColor": "#94D9B3",
-							"iid": "4c9baf90-7820-11ed-9e95-879a319adc33",
+							"iid": "086e3cd0-7820-11ed-9e95-4368a17138cb",
 							"width": 16,
 							"height": 16,
 							"defUid": 9,
-							"px": [184,280],
+							"px": [171,297],
+							"fieldInstances": []
+						},
+						{
+							"__identifier": "Coin",
+							"__grid": [6,11],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": { "tilesetUid": 2, "x": 198, "y": 126, "w": 18, "h": 18 },
+							"__smartColor": "#94D9B3",
+							"iid": "0cad9430-7820-11ed-9e95-7b27b1c6c45d",
+							"width": 16,
+							"height": 16,
+							"defUid": 9,
+							"px": [117,207],
 							"fieldInstances": []
 						}
 					]
