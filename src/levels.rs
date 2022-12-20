@@ -206,7 +206,7 @@ pub struct ColliderBundle {
     pub velocity: Velocity,
     pub rotation_constraints: LockedAxes,
     pub active_events: ActiveEvents,
-    pub sensor : Sensor
+    pub sensor: Sensor,
 }
 
 impl From<EntityInstance> for ColliderBundle {
@@ -236,7 +236,7 @@ pub struct CoinBundle {
     #[from_entity_instance]
     #[bundle]
     pub collider_bundle: ColliderBundle,
-    pub coin : Coin,
+    pub coin: Coin,
 }
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
@@ -250,6 +250,5 @@ pub struct HeartBundle {
     #[from_entity_instance]
     #[bundle]
     pub collider_bundle: ColliderBundle,
-    pub heart : Heart,
+    pub heart: Heart,
 }
-
