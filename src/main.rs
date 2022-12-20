@@ -72,10 +72,9 @@ fn player_setup(mut commands: Commands, asset_server: Res<AssetServer>) {
         .insert(Velocity(Vec2::ZERO))
         .insert(RigidBody::KinematicPositionBased)
         .insert(CoinCollector::default())
-        .insert(Collider::round_cuboid(
-            PLAYER_WIDTH / 2.0 - 7.0,
-            PLAYER_HEIGHT / 2.0 - 7.0,
-            6.0,
+        .insert(Collider::capsule_y(
+            PLAYER_HEIGHT / 2.0 - 8.0,
+            PLAYER_WIDTH / 2.0 - 3.0,
         ))
         .insert(KinematicCharacterController {  ..default() })
         .insert(KinematicCharacterControllerOutput::default())
