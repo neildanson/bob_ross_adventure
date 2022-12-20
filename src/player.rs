@@ -38,7 +38,7 @@ impl From<EntityInstance> for PlayerThingsBundle {
             "PlayerStart" => PlayerThingsBundle {
                 rigid_body: RigidBody::KinematicPositionBased,
                 collider: Collider::capsule_y(PLAYER_HEIGHT / 2.0 - 8.0, PLAYER_WIDTH / 2.0 - 3.0),
-                controller : KinematicCharacterController::default(),
+                controller: KinematicCharacterController::default(),
                 ..default()
             },
 
@@ -117,6 +117,7 @@ pub fn apply_gravity(
     for (mut velocity, result) in query.iter_mut() {
         if !result.grounded {
             velocity.0.y -= GRAVITY * delta; //gravitys
+            velocity.0.y = f32::max(velocity.0.y, TERMINAL_VELOCITY);
         }
     }
 }
@@ -124,5 +125,19 @@ pub fn apply_gravity(
 pub fn apply_velocity(mut query: Query<(&mut KinematicCharacterController, &EntityVelocity)>) {
     for (mut controller, velocity) in query.iter_mut() {
         controller.translation = update_translation(controller.translation, velocity.0);
+    }
+}
+
+pub fn player_sticky(
+    mut query: Query<(&mut PlayerDirection, &KinematicCharacterControllerOutput)>,
+) {
+    for (mut direction, result) in query.iter_mut() {
+        if result.desired_translation.y != result.effective_translation.y {
+            *direction = match *direction {
+                PlayerDirection::RunLeft => PlayerDirection::FaceLeft,
+                PlayerDirection::RunRight => PlayerDirection::FaceRight,
+                _ => direction.clone(),
+            };
+        }
     }
 }

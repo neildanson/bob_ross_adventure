@@ -4,7 +4,7 @@ use bevy_inspector_egui::prelude::*;
 #[derive(Component, Default, Clone)]
 pub struct Player;
 
-#[derive(Clone, Component, Default, Reflect, Inspectable,)]
+#[derive(Clone, Component, Default, Reflect, Inspectable)]
 #[reflect(Component)]
 pub enum PlayerDirection {
     FaceLeft,
@@ -14,7 +14,7 @@ pub enum PlayerDirection {
     RunRight,
 }
 
-#[derive(Component, Default, Clone, Reflect, Inspectable,)]
+#[derive(Component, Default, Clone, Reflect, Inspectable)]
 #[reflect(Component)]
 pub struct CoinCollector(pub u32);
 

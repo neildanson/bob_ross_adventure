@@ -7,7 +7,6 @@ mod plugins;
 use bevy::{prelude::*, window::close_on_esc};
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
-use float_cmp::*;
 use iyes_loopless::prelude::*;
 
 use components::*;
@@ -41,21 +40,17 @@ fn level_startup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.insert_resource(LevelSelection::Index(0))
 }
 
-fn coin_collect (
+fn coin_collect(
     mut commands: Commands,
     mut query: Query<(&mut CoinCollector, &KinematicCharacterControllerOutput)>,
     coins: Query<Entity, With<Coin>>,
 ) {
     for (mut coin_collector, result) in query.iter_mut() {
-        //if result.effective_translation.x.approx_eq(0.0, (0.0, 2)) {
-        //    velocity.0.x = -velocity.0.x;
-        //}
-
         for collision in result.collisions.iter() {
             let coin = coins.get(collision.entity);
             if let Ok(coin) = coin {
                 println!("Collected coin");
-                coin_collector.0+=1;
+                coin_collector.0 += 1;
                 commands.entity(coin).despawn();
             }
         }
@@ -117,6 +112,7 @@ fn main() {
                 .with_system(flip_player)
                 .with_system(coin_collect)
                 .with_system(camera_follow)
+                .with_system(player_sticky)
                 .into(),
         )
         .add_system_set(ConditionSet::new().run_in_state(GameState::MainMenu).into())
