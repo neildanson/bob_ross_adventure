@@ -5,7 +5,7 @@ use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
 
 #[derive(Clone, Bundle, LdtkIntCell, Default)]
-pub struct PlayerThingsBundle {
+pub struct PlayerBundle {
     pub rigid_body: RigidBody,
     pub collider: Collider,
 
@@ -13,10 +13,10 @@ pub struct PlayerThingsBundle {
 }
 
 #[derive(Clone, Bundle, LdtkEntity, Default)]
-pub struct PlayerBundle {
+pub struct PlayerEntityBundle {
     #[from_entity_instance]
     #[bundle]
-    pub player_bundle: PlayerThingsBundle,
+    pub player_bundle: PlayerBundle,
 
     #[sprite_bundle("bob_ross.png")]
     #[bundle]
@@ -32,17 +32,17 @@ pub struct PlayerBundle {
     pub coin_collector: CoinCollector,
 }
 
-impl From<EntityInstance> for PlayerThingsBundle {
-    fn from(entity_instance: EntityInstance) -> PlayerThingsBundle {
+impl From<EntityInstance> for PlayerBundle {
+    fn from(entity_instance: EntityInstance) -> PlayerBundle {
         match entity_instance.identifier.as_ref() {
-            "PlayerStart" => PlayerThingsBundle {
+            "PlayerStart" => PlayerBundle {
                 rigid_body: RigidBody::KinematicPositionBased,
                 collider: Collider::capsule_y(PLAYER_HEIGHT / 2.0 - 8.0, PLAYER_WIDTH / 2.0 - 3.0),
                 controller: KinematicCharacterController::default(),
                 ..default()
             },
 
-            _ => PlayerThingsBundle::default(),
+            _ => PlayerBundle::default(),
         }
     }
 }
@@ -131,7 +131,7 @@ pub fn apply_velocity(mut query: Query<(&mut KinematicCharacterController, &Enti
 pub fn player_sticky(
     mut query: Query<(&mut PlayerDirection, &KinematicCharacterControllerOutput)>,
 ) {
-    for (mut direction, result) in query.iter_mut() {
+    /*for (mut direction, result) in query.iter_mut() {
         if result.desired_translation.y != result.effective_translation.y {
             *direction = match *direction {
                 PlayerDirection::RunLeft => PlayerDirection::FaceLeft,
@@ -139,5 +139,5 @@ pub fn player_sticky(
                 _ => direction.clone(),
             };
         }
-    }
+    }*/
 }

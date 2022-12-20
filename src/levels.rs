@@ -1,5 +1,5 @@
 use std::collections::{HashMap, HashSet};
-
+use crate::components::*;
 use bevy::prelude::*;
 use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
@@ -184,7 +184,6 @@ impl From<IntGridCell> for SensorBundle {
     fn from(int_grid_cell: IntGridCell) -> SensorBundle {
         let rotation_constraints = LockedAxes::ROTATION_LOCKED;
 
-        // coin
         if int_grid_cell.value == 2 {
             SensorBundle {
                 collider: Collider::cuboid(16.0 / 2.0, 16. / 2.0),
@@ -225,11 +224,8 @@ impl From<EntityInstance> for ColliderBundle {
     }
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
-pub struct Coin;
-
 #[derive(Clone, Default, Bundle, LdtkEntity)]
-pub struct CoinBundle {
+pub struct CoinEntityBundle {
     #[sprite_sheet_bundle]
     #[bundle]
     pub sprite_sheet_bundle: SpriteSheetBundle,
@@ -239,11 +235,8 @@ pub struct CoinBundle {
     pub coin: Coin,
 }
 
-#[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
-pub struct Heart;
-
 #[derive(Clone, Default, Bundle, LdtkEntity)]
-pub struct HeartBundle {
+pub struct HeartEntityBundle {
     #[sprite_sheet_bundle]
     #[bundle]
     pub sprite_sheet_bundle: SpriteSheetBundle,

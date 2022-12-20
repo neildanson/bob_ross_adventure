@@ -21,3 +21,10 @@ pub struct CoinCollector(pub u32);
 #[derive(Component, Reflect, Inspectable, Default, Clone)]
 #[reflect(Component)]
 pub struct EntityVelocity(pub Vec2);
+
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
+pub struct Coin;
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
+pub struct Heart;
