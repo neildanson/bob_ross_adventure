@@ -212,7 +212,7 @@ pub struct ColliderBundle {
 impl From<EntityInstance> for ColliderBundle {
     fn from(entity_instance: EntityInstance) -> ColliderBundle {
         match entity_instance.identifier.as_ref() {
-            "Coin" => ColliderBundle {
+            "Coin" | "Heart" => ColliderBundle {
                 collider: Collider::ball(6.),
                 rigid_body: RigidBody::KinematicVelocityBased,
                 active_events: ActiveEvents::CONTACT_FORCE_EVENTS,
@@ -238,3 +238,18 @@ pub struct CoinBundle {
     pub collider_bundle: ColliderBundle,
     pub coin : Coin,
 }
+
+#[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
+pub struct Heart;
+
+#[derive(Clone, Default, Bundle, LdtkEntity)]
+pub struct HeartBundle {
+    #[sprite_sheet_bundle]
+    #[bundle]
+    pub sprite_sheet_bundle: SpriteSheetBundle,
+    #[from_entity_instance]
+    #[bundle]
+    pub collider_bundle: ColliderBundle,
+    pub heart : Heart,
+}
+

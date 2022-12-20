@@ -128,6 +128,7 @@ fn main() {
         //.register_ldtk_int_cell::<CoinBundle>(2)
 
         .register_ldtk_entity::<CoinBundle>("Coin")
+        .register_ldtk_entity::<HeartBundle>("Heart")
         .register_type::<EntityVelocity>()
         .run();
 }
