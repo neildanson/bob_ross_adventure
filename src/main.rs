@@ -31,13 +31,18 @@ fn startup(mut commands: Commands) {
     });
 }
 
-fn level_startup(mut commands: Commands, asset_server: Res<AssetServer>) {
+fn level_startup(mut commands: Commands, asset_server: Res<AssetServer>, audio: Res<Audio>) {
     commands.spawn(LdtkWorldBundle {
         ldtk_handle: asset_server.load("test.ldtk"),
         ..Default::default()
     });
 
-    commands.insert_resource(LevelSelection::Index(0))
+    commands.insert_resource(LevelSelection::Index(0));
+
+    audio.play_with_settings(
+        asset_server.load("Playful-LOOP.ogg"),
+        PlaybackSettings::LOOP.with_volume(0.75),
+    );
 }
 
 fn coin_collect(
