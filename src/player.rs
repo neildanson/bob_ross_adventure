@@ -8,6 +8,8 @@ use bevy_rapier2d::prelude::*;
 pub struct PlayerThingsBundle {
     pub rigid_body: RigidBody,
     pub collider: Collider,
+
+    pub controller: KinematicCharacterController,
 }
 
 #[derive(Clone, Bundle, LdtkEntity, Default)]
@@ -26,7 +28,6 @@ pub struct PlayerBundle {
     pub player: Player,
     pub direction: PlayerDirection,
     pub velocity: EntityVelocity,
-    pub controller: KinematicCharacterController,
     pub controller_output: KinematicCharacterControllerOutput,
     pub coin_collector: CoinCollector,
 }
@@ -37,6 +38,7 @@ impl From<EntityInstance> for PlayerThingsBundle {
             "PlayerStart" => PlayerThingsBundle {
                 rigid_body: RigidBody::KinematicPositionBased,
                 collider: Collider::capsule_y(PLAYER_HEIGHT / 2.0 - 8.0, PLAYER_WIDTH / 2.0 - 3.0),
+                controller : KinematicCharacterController::default(),
                 ..default()
             },
 
@@ -81,8 +83,6 @@ pub fn player_input(
 
             if keys.just_pressed(KeyCode::Space) {
                 velocity.0.y = PLAYER_JUMP;
-            } else {
-                velocity.0.y = 0.0;
             }
         }
     }

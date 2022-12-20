@@ -363,6 +363,20 @@
 							"defUid": 10,
 							"px": [225,279],
 							"fieldInstances": []
+						},
+						{
+							"__identifier": "Coin",
+							"__grid": [5,18],
+							"__pivot": [0.5,0.5],
+							"__tags": [],
+							"__tile": { "tilesetUid": 2, "x": 198, "y": 126, "w": 18, "h": 18 },
+							"__smartColor": "#94D9B3",
+							"iid": "45db8320-7820-11ed-9414-69c7cf06b5b7",
+							"width": 16,
+							"height": 16,
+							"defUid": 9,
+							"px": [99,333],
+							"fieldInstances": []
 						}
 					]
 				},

@@ -41,20 +41,21 @@ fn level_startup(mut commands: Commands, asset_server: Res<AssetServer>) {
     commands.insert_resource(LevelSelection::Index(0))
 }
 
-fn read_output(
+fn coin_collect (
     mut commands: Commands,
-    mut query: Query<(&mut EntityVelocity, &KinematicCharacterControllerOutput)>,
+    mut query: Query<(&mut CoinCollector, &KinematicCharacterControllerOutput)>,
     coins: Query<Entity, With<Coin>>,
 ) {
-    for (mut velocity, result) in query.iter_mut() {
-        if result.effective_translation.x.approx_eq(0.0, (0.0, 2)) {
-            velocity.0.x = -velocity.0.x;
-        }
+    for (mut coin_collector, result) in query.iter_mut() {
+        //if result.effective_translation.x.approx_eq(0.0, (0.0, 2)) {
+        //    velocity.0.x = -velocity.0.x;
+        //}
 
         for collision in result.collisions.iter() {
             let coin = coins.get(collision.entity);
             if let Ok(coin) = coin {
                 println!("Collected coin");
+                coin_collector.0+=1;
                 commands.entity(coin).despawn();
             }
         }
@@ -114,7 +115,7 @@ fn main() {
                 .with_system(apply_gravity)
                 .with_system(apply_velocity)
                 .with_system(flip_player)
-                .with_system(read_output)
+                .with_system(coin_collect)
                 .with_system(camera_follow)
                 .into(),
         )
@@ -126,5 +127,7 @@ fn main() {
         .register_ldtk_entity::<HeartBundle>("Heart")
         .register_ldtk_entity::<PlayerBundle>("PlayerStart")
         .register_type::<EntityVelocity>()
+        .register_type::<PlayerDirection>()
+        .register_type::<CoinCollector>()
         .run();
 }
