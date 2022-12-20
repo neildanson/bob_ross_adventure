@@ -76,8 +76,6 @@ fn camera_follow(
     );
 }
 
-
-
 fn main() {
     App::new()
         .add_plugins(
@@ -98,7 +96,7 @@ fn main() {
         .add_plugin(WorldInspectorPlugin::new())
         .insert_resource(LdtkSettings {
             level_spawn_behavior: LevelSpawnBehavior::UseWorldTranslation {
-                load_level_neighbors: true,
+                load_level_neighbors: true, 
             },
             set_clear_color: SetClearColor::FromLevelBackground,
             ..Default::default()
@@ -125,8 +123,6 @@ fn main() {
         .add_system_set(ConditionSet::new().run_in_state(GameState::GameOver).into())
         .add_system(close_on_esc)
         .register_ldtk_int_cell::<WallBundle>(1)
-        //.register_ldtk_int_cell::<CoinBundle>(2)
-
         .register_ldtk_entity::<CoinBundle>("Coin")
         .register_ldtk_entity::<HeartBundle>("Heart")
         .register_type::<EntityVelocity>()
