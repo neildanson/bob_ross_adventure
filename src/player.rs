@@ -23,8 +23,8 @@ pub struct PlayerBundle {
     #[worldly]
     pub worldly: Worldly,
 
-    pub player : Player,
-    pub direction : PlayerDirection,
+    pub player: Player,
+    pub direction: PlayerDirection,
     pub velocity: EntityVelocity,
     pub controller: KinematicCharacterController,
     pub controller_output: KinematicCharacterControllerOutput,
@@ -41,7 +41,6 @@ impl From<EntityInstance> for PlayerThingsBundle {
             },
 
             _ => PlayerThingsBundle::default(),
-     
         }
     }
 }

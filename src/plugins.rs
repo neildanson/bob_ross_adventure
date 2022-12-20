@@ -6,10 +6,13 @@ pub struct DebugPlugins;
 
 impl PluginGroup for DebugPlugins {
     fn build(self) -> PluginGroupBuilder {
-        let mut group = PluginGroupBuilder::start::<Self>();
-        group = group
-            .add(WorldInspectorPlugin::new())
-            .add(RapierDebugRenderPlugin::default());
-        group
+        if cfg!(debug_assertions) {
+            let group = PluginGroupBuilder::start::<Self>();
+            group
+                .add(WorldInspectorPlugin::new())
+                .add(RapierDebugRenderPlugin::default())
+        } else {
+            PluginGroupBuilder::start::<Self>()
+        }
     }
 }
