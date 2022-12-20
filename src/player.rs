@@ -131,13 +131,13 @@ pub fn apply_velocity(mut query: Query<(&mut KinematicCharacterController, &Enti
 pub fn player_sticky(
     mut query: Query<(&mut PlayerDirection, &KinematicCharacterControllerOutput)>,
 ) {
-    /*for (mut direction, result) in query.iter_mut() {
-        if result.desired_translation.y != result.effective_translation.y {
+    for (mut direction, result) in query.iter_mut() {
+        if result.effective_translation.x.abs() < f32::EPSILON {
             *direction = match *direction {
                 PlayerDirection::RunLeft => PlayerDirection::FaceLeft,
                 PlayerDirection::RunRight => PlayerDirection::FaceRight,
                 _ => direction.clone(),
             };
         }
-    }*/
+    }
 }
