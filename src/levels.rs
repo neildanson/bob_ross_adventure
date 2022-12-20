@@ -205,24 +205,19 @@ pub struct ColliderBundle {
     pub rigid_body: RigidBody,
     pub velocity: Velocity,
     pub rotation_constraints: LockedAxes,
-    pub gravity_scale: GravityScale,
-    pub friction: Friction,
-    pub density: ColliderMassProperties,
+    pub active_events: ActiveEvents,
+    pub sensor : Sensor
 }
 
 impl From<EntityInstance> for ColliderBundle {
     fn from(entity_instance: EntityInstance) -> ColliderBundle {
-        let rotation_constraints = LockedAxes::ROTATION_LOCKED;
-
         match entity_instance.identifier.as_ref() {
             "Coin" => ColliderBundle {
-                collider: Collider::cuboid(6., 14.),
-                rigid_body: RigidBody::Dynamic,
-                friction: Friction {
-                    coefficient: 0.0,
-                    combine_rule: CoefficientCombineRule::Min,
-                },
-                rotation_constraints,
+                collider: Collider::ball(6.),
+                rigid_body: RigidBody::KinematicVelocityBased,
+                active_events: ActiveEvents::CONTACT_FORCE_EVENTS,
+                sensor: Sensor::default(),
+                rotation_constraints: LockedAxes::ROTATION_LOCKED,
                 ..Default::default()
             },
             _ => ColliderBundle::default(),
@@ -232,14 +227,6 @@ impl From<EntityInstance> for ColliderBundle {
 
 #[derive(Copy, Clone, Eq, PartialEq, Debug, Default, Component)]
 pub struct Coin;
-/*#[derive(Clone, Default, Bundle, LdtkIntCell)]
-pub struct CoinBundle {
-    #[from_int_grid_cell]
-    #[bundle]
-    pub collider_bundle: SensorBundle,
-    pub coin: Coin,
-}*/
-
 
 #[derive(Clone, Default, Bundle, LdtkEntity)]
 pub struct CoinBundle {
@@ -249,4 +236,5 @@ pub struct CoinBundle {
     #[from_entity_instance]
     #[bundle]
     pub collider_bundle: ColliderBundle,
+    pub coin : Coin,
 }
