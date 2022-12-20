@@ -5,6 +5,7 @@ use bevy_ecs_ldtk::prelude::*;
 use bevy_rapier2d::prelude::*;
 use float_cmp::*;
 use iyes_loopless::prelude::*;
+use bevy_inspector_egui::WorldInspectorPlugin;
 use levels::*;
 
 const PLAYER_WIDTH: f32 = 22.0;
@@ -237,6 +238,7 @@ fn main() {
         )
         .add_loopless_state(GameState::InGame)
         .add_plugin(LdtkPlugin)
+        .add_plugin(WorldInspectorPlugin::new())
         .insert_resource(LdtkSettings {
             level_spawn_behavior: LevelSpawnBehavior::UseWorldTranslation {
                 load_level_neighbors: true,
